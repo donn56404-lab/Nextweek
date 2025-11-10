@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>NextWealth – Create Account</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+<script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+<style>
+  /* ==== Reset & Base ==== */
+  *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+  body {
+    font-family: 'Inter', sans-serif;
+    background: radial-gradient(circle at top left, #020b20, #010410, #000);
+    color:#e0eaff;
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:20px;
+    position:relative;
+    overflow-x:hidden;
+  }
+  a { text-decoration:none; color:inherit; }
+
+  #particles-js { position: fixed; top:0; left:0; width:100%; height:100%; z-index:-1; }
+
+  /* ==== Container ==== */
+  .container {
+    display:flex;
+    max-width:1000px;
+    width:100%;
+    background: rgba(10, 20, 50, 0.9);
+    border-radius: 24px;
+    overflow:hidden;
+    box-shadow:0 20px 40px rgba(0,0,0,0.4);
+    backdrop-filter: blur(10px);
+    border:1px solid rgba(0, 191, 255, 0.2);
+  }
+
+  /* ==== Left Panel ==== */
+  .left-panel {
+    flex:1;
+    background: linear-gradient(135deg, #002a4b, #00102f), 
+                url('https://images.unsplash.com/photo-1506905925346-5008b27e8564?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80') center/cover no-repeat;
+    position:relative;
+    color:white;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+    padding:40px;
+  }
+  .logo { font-size:28px; font-weight:700; letter-spacing:1px; color:#00bfff; }
+  .tagline { font-size:28px; font-weight:600; line-height:1.3; margin-bottom:20px; text-shadow:0 0 10px #00bfff44; }
+  .back-link {
+    position:absolute; top:20px; left:20px;
+    color:rgba(255,255,255,0.7); font-size:14px;
+    display:flex; align-items:center; gap:5px;
+  }
+  .back-link:hover { color:#00bfff; }
+
+  /* ==== Right Panel ==== */
+  .right-panel {
+    flex:1;
+    padding:50px 40px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+  }
+  .form-title { font-size:26px; font-weight:700; margin-bottom:8px; color:#00bfff; text-shadow:0 0 8px #00bfff44; }
+  .form-subtitle { font-size:14px; color:#aad7ff; margin-bottom:30px; }
+  .form-subtitle a { color:#a78bff; text-decoration:none; }
+  .form-subtitle a:hover { text-decoration:underline; }
+
+  .form-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:16px; }
+  .form-group { display:flex; flex-direction:column; }
+  .form-group.full { grid-column: span 2; }
+  label { font-size:13px; color:#ccc; margin-bottom:6px; }
+  input {
+    background: rgba(0, 47, 80, 0.3);
+    border: 1px solid rgba(0, 191, 255, 0.3);
+    border-radius:12px;
+    padding:14px 16px;
+    color:#fff;
+    font-size:15px;
+    outline:none;
+    transition: all 0.3s ease;
+  }
+  input:focus {
+    border-color:#00bfff;
+    background: rgba(0,47,80,0.5);
+    box-shadow: 0 0 0 3px rgba(0,191,255,0.2);
+  }
+  input::placeholder { color:#888; }
+
+  .checkbox-group { display:flex; align-items:center; gap:10px; margin:20px 0; font-size:14px; }
+  .checkbox-group input[type="checkbox"] { width:18px; height:18px; accent-color:#a78bff; }
+
+  .create-btn {
+    background: linear-gradient(90deg, #00bfff, #0077ff);
+    color:white;
+    border:none;
+    border-radius:12px;
+    padding:14px;
+    font-size:16px;
+    font-weight:600;
+    cursor:pointer;
+    transition:all 0.3s ease;
+    margin-bottom:20px;
+    box-shadow:0 5px 15px rgba(0,191,255,0.3);
+  }
+  .create-btn:hover { transform:translateY(-2px); box-shadow:0 10px 20px rgba(0,191,255,0.5); }
+
+  .social-login { display:flex; gap:12px; }
+  .social-btn {
+    flex:1; padding:12px; border-radius:12px; border:1px solid rgba(255,255,255,0.2);
+    background: rgba(255,255,255,0.05);
+    color:#fff; font-size:14px; font-weight:500;
+    cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px;
+    transition: all 0.3s ease;
+  }
+  .social-btn:hover { background: rgba(255,255,255,0.1); border-color:#00bfff; }
+  .social-btn i { font-size:18px; }
+  .google { color:#ea4335; }
+  .apple { color:#fff; }
+
+  /* ==== Responsive ==== */
+  @media(max-width:768px) {
+    .container { flex-direction:column; border-radius:18px; }
+    .left-panel { padding:30px; min-height:250px; }
+    .tagline { font-size:22px; }
+    .right-panel { padding:30px 25px; }
+    .form-grid { grid-template-columns:1fr; }
+    .form-group.full { grid-column: span 1; }
+  }
+</style>
+</head>
+
+<body>
+<div id="particles-js"></div>
+
+<div class="container">
+  <!-- Left Panel -->
+  <div class="left-panel">
+    <a href="index.html" class="back-link">
+      <i class="fas fa-arrow-left"></i> Back to website
+    </a>
+    <div class="logo">NextWealth</div>
+    <div class="tagline">Invest in your Future,<br>Secure your Wealth</div>
+  </div>
+
+  <!-- Right Panel -->
+  <div class="right-panel">
+    <h1 class="form-title">Create an account</h1>
+    <p class="form-subtitle">
+      Already have an account? <a href="login.html">Log in</a>
+    </p>
+
+    <form>
+      <div class="form-grid">
+        <div class="form-group">
+          <label>First name</label>
+          <input type="text" placeholder="Fletcher" required />
+        </div>
+        <div class="form-group">
+          <label>Last name</label>
+          <input type="text" placeholder="Last name" required />
+        </div>
+        <div class="form-group full">
+          <label>Email</label>
+          <input type="email" placeholder="Enter your email" required />
+        </div>
+        <div class="form-group full">
+          <label>Password</label>
+          <input type="password" placeholder="Enter your password" required />
+        </div>
+      </div>
+
+      <div class="checkbox-group">
+        <input type="checkbox" id="terms" required />
+        <label for="terms">I agree to the <a href="#" style="color:#a78bff;">Terms & Conditions</a></label>
+      </div>
+
+      <button type="submit" class="create-btn">Create account</button>
+
+      <div style="text-align:center; color:#888; margin:20px 0; font-size:14px;">
+        Or register with
+      </div>
+
+      <div class="social-login">
+        <button type="button" class="social-btn google">
+          <i class="fab fa-google"></i> Google
+        </button>
+        <button type="button" class="social-btn apple">
+          <i class="fab fa-apple"></i> Apple
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+  particlesJS("particles-js", {
+    "particles": {
+      "number": { "value": 80 },
+      "color": { "value": "#00bfff" },
+      "shape": { "type": "circle" },
+      "opacity": { "value": 0.5 },
+      "size": { "value": 3 },
+      "line_linked": { "enable": true, "distance": 150, "color": "#00bfff", "opacity": 0.4, "width": 1 },
+      "move": { "enable": true, "speed": 2 }
+    },
+    "interactivity": {
+      "events": { "onhover": { "enable": true, "mode": "repulse" } },
+      "modes": { "repulse": { "distance": 100, "duration": 0.4 } }
+    },
+    "retina_detect": true
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NextWealth – Invest in the Future</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+<style>
+/* ==== Reset & Base ==== */
+*, *::before, *::after { box-sizing: border-box; margin:0; padding:0; }
+body {
+  font-family: 'Inter', sans-serif;
+  background: radial-gradient(circle at top left, #020b20, #010410, #000);
+  color:#e0eaff;
+  line-height:1.6;
+  overflow-x:hidden;
+  position:relative;
+}
+a { text-decoration:none; color:inherit; }
+img { max-width:100%; display:block; }
+
+/* ==== Particles Background ==== */
+#particles-js { position: fixed; top:0; left:0; width:100%; height:100%; z-index:-1; }
+
+/* ==== Header / Nav ==== */
+header {
+  background:rgba(10,20,50,0.6);
+  backdrop-filter:blur(10px);
+  border-radius:1.5rem;
+  box-shadow:0 4px 20px rgba(0,255,255,0.1);
+  margin-bottom:2rem;
+}
+nav {
+  display:flex; justify-content:space-between; align-items:center; padding:1.5rem 2rem;
+}
+.logo { font-weight:700; font-size:1.5rem; color:#00bfff; letter-spacing:1px; }
+.nav-links { display:flex; gap:1.5rem; }
+.nav-links a { font-weight:600; color:#aad7ff; transition:color .2s; }
+.nav-links a:hover { color:#00bfff; }
+.cta-download {
+  background:#00bfff; color:#fff; padding:.6rem 1.4rem;
+  border-radius:2rem; font-weight:600; box-shadow:0 0 15px #00bfff88;
+}
+
+/* ==== Hero Section ==== */
+.hero {
+  display:grid; grid-template-columns:1fr 1fr;
+  gap:3rem; align-items:center;
+  padding:4rem 2rem; background:rgba(0,20,60,0.3);
+  border-radius:1.5rem; margin-bottom:4rem;
+  position:relative; overflow:hidden;
+  box-shadow:0 0 40px rgba(0,255,255,0.05);
+}
+
+.hero-text h1 {
+  font-size:3.8rem; font-weight:700; color:#00bfff;
+  text-shadow:0 0 25px #00bfff44; line-height:1.2;
+  margin-bottom:1rem; animation: glowText 2.5s ease-in-out infinite alternate;
+}
+@keyframes glowText { from { text-shadow:0 0 15px #00bfff44; } to { text-shadow:0 0 35px #00bfffcc; } }
+.hero-text p {
+  font-size:1.1rem; color:#cfe9ff; margin-bottom:2rem; max-width:480px;
+}
+.btn-primary {
+  background:#00bfff; color:#fff; padding:.9rem 2rem;
+  border-radius:2rem; font-weight:600; display:inline-block;
+  box-shadow:0 0 20px #00bfff88; transition:transform .2s;
+}
+.btn-primary:hover { transform:translateY(-3px); }
+.phone img { width:100%; max-width:380px; margin:auto; filter:drop-shadow(0 0 20px #00bfff66); }
+
+/* ==== Testimonials ==== */
+.testimonials {
+  padding:4rem 0; text-align:center;
+}
+.testimonials h2 { font-size:2.5rem; font-weight:700; color:#00bfff; margin-bottom:1rem; }
+.testimonials p.subtitle { color:#a7c7ff; max-width:600px; margin:0 auto 3rem; }
+.testimonials-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(300px, 1fr)); gap:2rem; }
+.testimonial-card {
+  background:rgba(10,20,60,0.4); padding:2rem; border-radius:1.5rem;
+  box-shadow:0 4px 15px rgba(0,255,255,0.1); text-align:left;
+  transition:transform .3s, box-shadow .3s;
+}
+.testimonial-card:hover { transform:translateY(-8px); box-shadow:0 12px 30px rgba(0,255,255,0.25); }
+.testimonial-author h4 { color:#00bfff; margin-bottom:0.2rem; }
+.testimonial-text { color:#cfe9ff; }
+
+/* ==== Responsive ==== */
+@media (max-width:960px){
+  .hero { grid-template-columns:1fr; text-align:center; padding:2rem 1rem; }
+  .phone { order:-1; margin-bottom:2rem; }
+}
+
+/* ==== Desktop Prompt Modal ==== */
+#desktopPrompt {
+  display:none;
+  position:fixed;
+  top:0; left:0;
+  width:100%; height:100%;
+  backdrop-filter:blur(8px);
+  background:rgba(0,0,0,0.85);
+  color:#00bfff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  z-index:9999;
+  padding:2rem;
+  font-size:1.2rem;
+  flex-direction:column;
+  opacity:0;
+  transform:translateY(50px);
+  transition:all 0.6s ease;
+}
+#desktopPrompt.show {
+  opacity:1;
+  transform:translateY(0);
+}
+#desktopPrompt button {
+  margin-top:1.5rem;
+  background:#00bfff;
+  color:#000;
+  padding:.8rem 2rem;
+  border:none;
+  border-radius:1rem;
+  cursor:pointer;
+  font-weight:600;
+  box-shadow:0 0 20px #00bfff88;
+  transition:transform .3s;
+}
+#desktopPrompt button:hover { transform:scale(1.05); }
+</style>
+</head>
+
+<body>
+
+<div id="particles-js"></div>
+
+<div class="container">
+  <header>
+    <nav>
+      <div class="logo">NextWealth</div>
+      <div class="nav-links">
+        <a href="about.html">About</a>
+        <a href="services.html">Services</a>
+        <a href="login.html">Login</a>
+      </div>
+      <a href="login.html" class="cta-download">Join Now</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <div class="hero-text">
+      <h1>Invest in<br>Tomorrow’s Wealth</h1>
+      <p>NextWealth empowers you to grow your portfolio with AI-driven insights, secure investments, and community-driven growth. The future of finance starts with you.</p>
+      <a href="login.html" class="btn-primary">Get Started</a>
+    </div>
+    <div class="phone">
+      <img src="../images/new.jpg" alt="NextWealth platform preview">
+    </div>
+  </section>
+
+  <section class="testimonials">
+    <h2>What Our Investors Say</h2>
+    <p class="subtitle">Trusted by thousands of smart investors who believe in the power of technology and innovation.</p>
+    <div class="testimonials-grid">
+      <div class="testimonial-card">
+        <div class="testimonial-author">
+          <h4>Sarah M.</h4>
+          <p>Crypto Analyst</p>
+        </div>
+        <p class="testimonial-text">"NextWealth helped me diversify my assets easily and securely. The analytics tools are simply next-level!"</p>
+      </div>
+      <div class="testimonial-card">
+        <div class="testimonial-author">
+          <h4>James L.</h4>
+          <p>Entrepreneur</p>
+        </div>
+        <p class="testimonial-text">"I’ve never seen such a futuristic yet simple platform. My ROI tripled within months thanks to their smart portfolio feature."</p>
+      </div>
+      <div class="testimonial-card">
+        <div class="testimonial-author">
+          <h4>Chika O.</h4>
+          <p>Student Investor</p>
+        </div>
+        <p class="testimonial-text">"I started small, but NextWealth made investing easy to understand. Now I’m teaching my friends too!"</p>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- Fancy Desktop Prompt Modal -->
+<div id="desktopPrompt">
+  For the best experience, please open NextWealth on a <strong>desktop or laptop</strong>.<br>
+  <button onclick="document.getElementById('desktopPrompt').classList.remove('show')">Okay, got it!</button>
+</div>
+
+<script>
+  // Show desktop prompt for mobile users with fade & slide
+  window.addEventListener('load', () => {
+    if (window.innerWidth <= 960) {
+      const modal = document.getElementById('desktopPrompt');
+      modal.style.display = 'flex';
+      setTimeout(() => modal.classList.add('show'), 50); // trigger animation
+    }
+  });
+
+  // Particles.js
+  particlesJS("particles-js", {
+    "particles": {
+      "number": { "value": 80 },
+      "color": { "value": "#00bfff" },
+      "shape": { "type": "circle" },
+      "opacity": { "value": 0.5 },
+      "size": { "value": 3 },
+      "line_linked": { "enable": true, "distance": 150, "color": "#00bfff", "opacity": 0.4, "width": 1 },
+      "move": { "enable": true, "speed": 2 }
+    },
+    "interactivity": {
+      "events": { "onhover": { "enable": true, "mode": "repulse" } },
+      "modes": { "repulse": { "distance": 100, "duration": 0.4 } }
+    },
+    "retina_detect": true
+  });
+</script>
+
+</body>
+</html>
