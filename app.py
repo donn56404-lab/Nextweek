@@ -4,7 +4,7 @@ import sqlite3
 import os
 
 app = Flask(__name__)
-app.secret_key = "supersecretkey"  # Change this in production!
+app.secret_key = os.getenv("SECRET_KEY", "supersecretkey")  # safer for Render
 
 # Database path
 DB_PATH = os.path.join('instance', 'nextwealth.db')
@@ -12,7 +12,7 @@ DB_PATH = os.path.join('instance', 'nextwealth.db')
 # Ensure instance folder exists
 os.makedirs('instance', exist_ok=True)
 
-# Initialize DB if it doesn't exist
+# Initialize database if missing
 def init_db():
     conn = sqlite3.connect(DB_PATH)
     c = conn.cursor()
@@ -28,12 +28,18 @@ def init_db():
 
 init_db()
 
-# Home route
+# ==============================
+# ROUTES
+# ==============================
+
 @app.route('/')
 def home():
     return render_template('index.html')
 
-# Register route
+@app.route('/about')
+def about():
+    return render_template('about.html')
+
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
@@ -42,24 +48,30 @@ def register():
         email = request.form.get('email')
         password = request.form.get('password')
 
+        if not all([first_name, last_name, email, password]):
+            flash("All fields are required.", "error")
+            return redirect(url_for('register'))
+
         hashed_password = generate_password_hash(password)
 
         try:
             conn = sqlite3.connect(DB_PATH)
             c = conn.cursor()
-            c.execute("INSERT INTO users (first_name, last_name, email, password) VALUES (?, ?, ?, ?)",
-                      (first_name, last_name, email, hashed_password))
+            c.execute("""
+                INSERT INTO users (first_name, last_name, email, password)
+                VALUES (?, ?, ?, ?)
+            """, (first_name, last_name, email, hashed_password))
             conn.commit()
             conn.close()
-            flash("Account created successfully! You can now log in.", "success")
+
+            flash("✅ Account created successfully! You can now log in.", "success")
             return redirect(url_for('login'))
         except sqlite3.IntegrityError:
-            flash("Email already exists. Try logging in.", "error")
+            flash("⚠️ Email already exists. Try logging in.", "error")
             return redirect(url_for('register'))
 
     return render_template('register.html')
 
-# Login route
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
@@ -74,28 +86,31 @@ def login():
 
         if user and check_password_hash(user[1], password):
             session['user_id'] = user[0]
-            flash("Logged in successfully!", "success")
+            flash("✅ Logged in successfully!", "success")
             return redirect(url_for('dashboard'))
         else:
-            flash("Invalid email or password.", "error")
+            flash("❌ Invalid email or password.", "error")
             return redirect(url_for('login'))
 
     return render_template('login.html')
 
-# Dashboard route (requires login)
 @app.route('/dashboard')
 def dashboard():
     if 'user_id' not in session:
-        flash("Please log in first.", "error")
+        flash("⚠️ Please log in first.", "error")
         return redirect(url_for('login'))
     return render_template('dashboard.html')
 
-# Logout route
 @app.route('/logout')
 def logout():
     session.pop('user_id', None)
-    flash("Logged out successfully.", "success")
+    flash("✅ Logged out successfully.", "success")
     return redirect(url_for('login'))
 
+# Error handling for missing pages
+@app.errorhandler(404)
+def not_found(e):
+    return render_template('404.html'), 404
+
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=5000)
