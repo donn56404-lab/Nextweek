@@ -1,1 +1,216 @@
-t
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>NextWealth Dashboard</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background: radial-gradient(circle at top left, #020b20, #010410, #000);
+      color: #e0eaff;
+      min-height: 100vh;
+    }
+    /* Sidebar */
+    .sidebar {
+      background: rgba(5, 20, 60, 0.95);
+      backdrop-filter: blur(10px);
+      border-right: 1px solid rgba(0, 191, 255, 0.2);
+      box-shadow: 0 0 25px rgba(0,191,255,0.05);
+      transition: all 0.3s ease;
+    }
+    .sidebar a {
+      transition: all 0.3s ease;
+      color: #a6cfff;
+    }
+    .sidebar a:hover {
+      color: #fff;
+      background: rgba(0, 191, 255, 0.1);
+      box-shadow: inset 0 0 10px rgba(0,191,255,0.3);
+    }
+    /* Header */
+    .header {
+      background: rgba(10, 25, 60, 0.7);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid rgba(0,191,255,0.15);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+    }
+    /* Cards */
+    .card {
+      background: rgba(10, 20, 50, 0.9);
+      border: 1px solid rgba(0, 191, 255, 0.2);
+      border-radius: 16px;
+      box-shadow: 0 0 20px rgba(0,191,255,0.05);
+      transition: all 0.3s ease;
+    }
+    .card:hover {
+      box-shadow: 0 0 25px rgba(0,191,255,0.2);
+      transform: translateY(-3px);
+    }
+    /* Mobile adjustments */
+    @media (max-width: 768px) {
+      .sidebar {
+        position: fixed;
+        z-index: 50;
+        top: 0;
+        left: -16rem;
+        width: 16rem;
+        height: 100%;
+      }
+      .sidebar.open {
+        left: 0;
+      }
+      .sidebar-toggle {
+        display: inline-flex;
+      }
+      body {
+        overflow-x: hidden;
+      }
+    }
+    .sidebar-toggle {
+      display: none;
+      cursor: pointer;
+      font-size: 1.5rem;
+      color: #00bfff;
+    }
+  </style>
+</head>
+
+<body class="flex flex-col md:flex-row h-screen overflow-hidden">
+  <!-- Sidebar -->
+  <aside id="sidebar" class="sidebar w-64 p-5 flex flex-col justify-between">
+    <div>
+      <h1 class="text-2xl font-bold text-[#00bfff] mb-8 tracking-wider">NextWealth</h1>
+      <nav class="space-y-2">
+        <a href="#dashboard" class="flex items-center px-4 py-3 rounded-lg bg-[#00bfff22]"><i class="fa-solid fa-chart-line mr-3"></i> Dashboard</a>
+        <a href="#wallet" class="flex items-center px-4 py-3 rounded-lg"><i class="fa-solid fa-wallet mr-3"></i> My Wallet</a>
+        <a href="#investments" class="flex items-center px-4 py-3 rounded-lg"><i class="fa-solid fa-coins mr-3"></i> Investments</a>
+        <a href="#portfolio" class="flex items-center px-4 py-3 rounded-lg"><i class="fa-solid fa-chart-pie mr-3"></i> Portfolio</a>
+        <hr class="border-gray-700 my-4">
+        <a href="#support" class="flex items-center px-4 py-3 rounded-lg"><i class="fa-solid fa-headset mr-3"></i> Support</a>
+      </nav>
+    </div>
+    <a href="/logout" class="flex items-center px-4 py-3 rounded-lg text-red-400 hover:bg-red-900/20">
+      <i class="fa-solid fa-right-from-bracket mr-3"></i> Logout
+    </a>
+  </aside>
+
+  <!-- Main Content -->
+  <div class="flex-1 flex flex-col overflow-hidden">
+    <!-- Header -->
+    <header class="header px-6 py-4 flex items-center justify-between">
+      <div class="flex items-center space-x-3">
+        <span class="sidebar-toggle md:hidden" id="sidebar-toggle"><i class="fa-solid fa-bars"></i></span>
+        <h2 class="text-xl font-semibold text-[#00bfff]">NextWealth</h2>
+      </div>
+      <div class="flex items-center space-x-3">
+        <div class="p-2 bg-[#001d3d] rounded-full text-[#00bfff]">
+          <i class="fa-solid fa-bell"></i>
+        </div>
+        <div class="flex items-center space-x-2">
+          <div class="w-8 h-8 bg-[#00bfff55] rounded-full border border-[#00bfff88]"></div>
+          <span class="text-sm text-[#aad7ff]">Welcome, {{ user_first_name }}</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Content Sections -->
+    <main class="flex-1 overflow-y-auto p-4 md:p-6">
+      <!-- Dashboard Tab -->
+      <div id="dashboard-tab" class="tab-content">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+          <div class="card p-4"><span class="text-sm text-[#aad7ff]">Wallet Balance</span><div class="text-2xl md:text-3xl font-bold mt-2">$0</div></div>
+          <div class="card p-4"><span class="text-sm text-[#aad7ff]">Active Investments</span><div class="text-2xl md:text-3xl font-bold mt-2">$0</div></div>
+          <div class="card p-4"><span class="text-sm text-[#aad7ff]">Total Profit</span><div class="text-2xl md:text-3xl font-bold mt-2">$0</div></div>
+          <div class="card p-4"><span class="text-sm text-[#aad7ff]">Pending Withdrawals</span><div class="text-2xl md:text-3xl font-bold mt-2">$0</div></div>
+        </div>
+
+        <div class="card p-4 mb-6 overflow-x-auto">
+          <h3 class="text-lg font-semibold text-[#00bfff] mb-4">Live Market Prices</h3>
+          <table class="w-full text-sm text-[#cde4ff] min-w-[300px]">
+            <thead><tr><th>Coin</th><th>Price (USD)</th><th>24h Change</th></tr></thead>
+            <tbody id="crypto-table">
+              <tr><td>BTC</td><td>$0</td><td>0%</td></tr>
+              <tr><td>ETH</td><td>$0</td><td>0%</td></tr>
+              <tr><td>USDT</td><td>$0</td><td>0%</td></tr>
+              <tr><td>DOGE</td><td>$0</td><td>0%</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Wallet Tab -->
+      <div id="wallet-tab" class="tab-content hidden">
+        <h3 class="text-lg font-semibold text-[#00bfff] mb-4">My Wallet</h3>
+        <p class="text-[#cde4ff]">Wallet details will appear here.</p>
+      </div>
+
+      <!-- Investments Tab -->
+      <div id="investments-tab" class="tab-content hidden">
+        <h3 class="text-lg font-semibold text-[#00bfff] mb-4">Investments</h3>
+        <p class="text-[#cde4ff]">Your investments details will appear here.</p>
+      </div>
+
+      <!-- Portfolio Tab -->
+      <div id="portfolio-tab" class="tab-content hidden">
+        <h3 class="text-lg font-semibold text-[#00bfff] mb-4">Portfolio</h3>
+        <p class="text-[#cde4ff]">Your portfolio details will appear here.</p>
+      </div>
+
+      <!-- Support Tab -->
+      <div id="support-tab" class="tab-content hidden">
+        <h3 class="text-lg font-semibold text-[#00bfff] mb-4">Support</h3>
+        <p class="text-[#cde4ff]">Support information will appear here.</p>
+      </div>
+    </main>
+  </div>
+
+  <!-- JS for Sidebar toggle, Tab Switching, and CoinGecko API -->
+  <script>
+    // Sidebar toggle for mobile
+    const sidebar = document.getElementById('sidebar');
+    const toggleBtn = document.getElementById('sidebar-toggle');
+    toggleBtn.addEventListener('click', () => {
+      sidebar.classList.toggle('open');
+    });
+
+    // Tab switching
+    const tabs = document.querySelectorAll('.sidebar a');
+    const contents = document.querySelectorAll('.tab-content');
+
+    tabs.forEach(tab => {
+      tab.addEventListener('click', e => {
+        e.preventDefault();
+        const targetId = tab.getAttribute('href').substring(1) + '-tab';
+        contents.forEach(c => c.classList.add('hidden'));
+        document.getElementById(targetId).classList.remove('hidden');
+
+        // Close sidebar on mobile after click
+        if(window.innerWidth < 768) sidebar.classList.remove('open');
+      });
+    });
+
+    // Fetch Prices from CoinGecko
+    async function updatePrices() {
+      try {
+        const res = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,tether,dogecoin&vs_currencies=usd&include_24hr_change=true');
+        const data = await res.json();
+
+        const table = document.getElementById('crypto-table');
+        table.innerHTML = `
+          <tr><td>BTC</td><td>$${data.bitcoin.usd.toLocaleString()}</td><td class="${data.bitcoin.usd_24h_change >= 0 ? 'text-green-400' : 'text-red-400'}">${data.bitcoin.usd_24h_change.toFixed(2)}%</td></tr>
+          <tr><td>ETH</td><td>$${data.ethereum.usd.toLocaleString()}</td><td class="${data.ethereum.usd_24h_change >= 0 ? 'text-green-400' : 'text-red-400'}">${data.ethereum.usd_24h_change.toFixed(2)}%</td></tr>
+          <tr><td>USDT</td><td>$${data.tether.usd.toLocaleString()}</td><td class="${data.tether.usd_24h_change >= 0 ? 'text-green-400' : 'text-red-400'}">${data.tether.usd_24h_change.toFixed(2)}%</td></tr>
+          <tr><td>DOGE</td><td>$${data.dogecoin.usd.toLocaleString()}</td><td class="${data.dogecoin.usd_24h_change >= 0 ? 'text-green-400' : 'text-red-400'}">${data.dogecoin.usd_24h_change.toFixed(2)}%</td></tr>
+        `;
+      } catch (err) {
+        console.error("Error fetching crypto data:", err);
+      }
+    }
+    updatePrices();
+    setInterval(updatePrices, 15000); // update every 15 seconds
+  </script>
+</body>
+  </html>
