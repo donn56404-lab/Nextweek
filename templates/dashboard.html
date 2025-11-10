@@ -50,31 +50,26 @@
       transform: translateY(-3px);
     }
     /* Mobile adjustments */
-    @media (max-width: 768px) {
-      .sidebar {
-        position: fixed;
-        z-index: 50;
-        top: 0;
-        left: -16rem;
-        width: 16rem;
-        height: 100%;
-      }
-      .sidebar.open {
-        left: 0;
-      }
-      .sidebar-toggle {
-        display: inline-flex;
-      }
-      body {
-        overflow-x: hidden;
-      }
-    }
-    .sidebar-toggle {
-      display: none;
-      cursor: pointer;
-      font-size: 1.5rem;
-      color: #00bfff;
-    }
+@media (max-width: 768px) {
+  .sidebar {
+    position: fixed;
+    z-index: 50;
+    top: 0;
+    left: -16rem; /* hidden by default */
+    width: 16rem;
+    height: 100%;
+    transition: left 0.3s ease-in-out; /* smooth slide */
+  }
+  .sidebar.open {
+    left: 0; /* slide in */
+  }
+  .sidebar-toggle {
+    display: inline-flex;
+  }
+  body {
+    overflow-x: hidden;
+  }
+}
   </style>
 </head>
 
@@ -213,4 +208,4 @@
     setInterval(updatePrices, 15000); // update every 15 seconds
   </script>
 </body>
-  </html>
+              </html>
