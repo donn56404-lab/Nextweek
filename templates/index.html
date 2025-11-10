@@ -142,11 +142,11 @@ nav {
     <nav>
       <div class="logo">NextWealth</div>
       <div class="nav-links">
-        <a href="about.html">About</a>
-        <a href="services.html">Services</a>
-        <a href="login.html">Login</a>
+        <a href="{{ url_for('about') }}">About</a>
+        <a href="{{ url_for('services') }}">Services</a>
+        <a href="{{ url_for('login') }}">Login</a>
       </div>
-      <a href="login.html" class="cta-download">Join Now</a>
+      <a href="{{ url_for('login') }}" class="cta-download">Join Now</a>
     </nav>
   </header>
 
@@ -154,10 +154,10 @@ nav {
     <div class="hero-text">
       <h1>Invest in<br>Tomorrow’s Wealth</h1>
       <p>NextWealth empowers you to grow your portfolio with AI-driven insights, secure investments, and community-driven growth. The future of finance starts with you.</p>
-      <a href="login.html" class="btn-primary">Get Started</a>
+      <a href="{{ url_for('login') }}" class="btn-primary">Get Started</a>
     </div>
     <div class="phone">
-      <img src="../images/new.jpg" alt="NextWealth platform preview">
+      <img src="{{ url_for('static', filename='images/new.jpg') }}" alt="NextWealth platform preview">
     </div>
   </section>
 
@@ -202,7 +202,7 @@ nav {
     if (window.innerWidth <= 960) {
       const modal = document.getElementById('desktopPrompt');
       modal.style.display = 'flex';
-      setTimeout(() => modal.classList.add('show'), 50); // trigger animation
+      setTimeout(() => modal.classList.add('show'), 50);
     }
   });
 
